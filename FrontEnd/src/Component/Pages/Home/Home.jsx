@@ -1,10 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomeSlider from "./HomeSlider";
 import HomeCatSlider from "./HomeCatSlider";
 import { FaShippingFast } from "react-icons/fa";
 import AdsBannerSlider from "../../AdsBannerSlider/AdsBannerSlider";
 import Productitem from "../../Product/Productitem";
+import { getProducts } from "../../../api/ProductApi";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -13,7 +14,31 @@ import ProductByTab, { NewProduct } from "../Data/Product";
 import Footer from "../Footer";
 
 function Home() {
+  const [products, setProducts] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        const formattedProducts = data.map((product) => ({
+          title: product.title,
+          description: product.description,
+          main: product.image,
+          hover: product.image,
+          discount: product.discount,
+          instock: product.stock > 0,
+          rating: product.rating,
+          mrp: product.mrp > 0,
+          Price: product.price < product.mrp,
+        }));
+        setProducts(formattedProducts);
+      } catch (error) {
+        console.log("Error fetching product:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const tabKeys = [
     "FASHION",
