@@ -3,31 +3,40 @@ const Product = require("../models/Product");
 
 const router = express.Router();
 
-//Get all the Product
+//Get the collection of all Product
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find();
+    let filter = {};
 
-    res.status(200).json(products);
+    if (req.query.type) {
+      filter.type = req.query.type;
+    }
+
+    if (req.query.featured) {
+      filter.featured = req.query.featured === "true";
+    }
+    const Products = await Product.find(filter);
+
+    res.status(200).json(Products);
   } catch (errr) {
     res.status(500).json({
       message: "Error fetching products",
-      error: errr.message,
+      err: errr.message,
     });
   }
 });
 
+//Add a new product
 router.post("/", async (req, res) => {
   try {
-    const product = new Product(req.body);
+    const newProduct = new Product(req.body);
 
-    const savedProduct = await product.save();
-
-    res.status(201).json(savedProduct);
-  } catch (error) {
+    const savedProduct = await newProduct.save();
+    res.status(200).json(savedProduct);
+  } catch (err) {
     res.status(500).json({
-      message: "Error adding product",
-      error: error.message,
+      message: "Error adding the Product",
+      error: err.message,
     });
   }
 });

@@ -5,50 +5,93 @@ import HomeCatSlider from "./HomeCatSlider";
 import { FaShippingFast } from "react-icons/fa";
 import AdsBannerSlider from "../../AdsBannerSlider/AdsBannerSlider";
 import Productitem from "../../Product/Productitem";
-import { getProducts } from "../../../api/ProductApi";
+import {
+  getProductsByType,
+  getFeaturedProducts,
+} from "../../../api/ProductApi";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Products from "../../Product/Products";
-import ProductByTab, { NewProduct } from "../Data/Product";
 import Footer from "../Footer";
 
 function Home() {
+  const [tabProducts, setTabProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [groceries, setGroceries] = useState([]);
+
+  const formatProducts = (data) =>
+    data.map((product) => ({
+      title: product.title,
+      description: product.description,
+
+      // MongoDB stores these as arrays
+      main: Array.isArray(product.main) ? product.main[0] : product.main,
+      hover: Array.isArray(product.hover) ? product.hover[0] : product.hover,
+
+      discount: product.discount,
+      instock: product.stock > 0,
+      rating: product.rating,
+      mrp: product.mrp > 0 ? product.mrp : "",
+      Price: product.price,
+      type: product.type,
+    }));
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchFeaturedProducts = async () => {
       try {
-        const data = await getProducts();
-        const formattedProducts = data.map((product) => ({
-          title: product.title,
-          description: product.description,
-          main: product.image,
-          hover: product.image,
-          discount: product.discount,
-          instock: product.stock > 0,
-          rating: product.rating,
-          mrp: product.mrp > 0,
-          Price: product.price < product.mrp,
-        }));
-        setProducts(formattedProducts);
-      } catch (error) {
-        console.log("Error fetching product:", error);
+        const data = await getFeaturedProducts();
+        setFeaturedProducts(formatProducts(data));
+      } catch (errr) {
+        console.log("Error fetching featured products:", errr);
       }
     };
-    fetchProducts();
+
+    const fetchgroceriesProducts = async () => {
+      try {
+        const data = await getProductsByType("Groceries");
+        setGroceries(formatProducts(data));
+      } catch (err) {
+        console.log("Error fetching Groceriesproducts:", err);
+      }
+    };
+
+    const fetchNewProducts = async () => {
+      try {
+        const data = await getProductsByType("newProducts");
+        setProducts(formatProducts(data));
+      } catch (errr) {
+        console.log("Error fetching newProducts: ", errr);
+      }
+    };
+    fetchgroceriesProducts();
+    fetchNewProducts();
+    fetchFeaturedProducts();
   }, []);
 
+  useEffect(() => {
+    const fetchTabProducts = async () => {
+      try {
+        const data = await getProductsByType(tabKeys[activeTab]);
+        setTabProducts(formatProducts(data));
+      } catch (err) {
+        console.log("Error fetching tab products:", err);
+      }
+    };
+    fetchTabProducts();
+  }, [activeTab]);
+
   const tabKeys = [
-    "FASHION",
-    "ELECTRONICS",
-    "BAGS",
-    "FOOTWEAR",
-    "GROCERIES",
-    "BEAUTY",
-    "WELLNESS",
-    "JEWELLERY",
+    "Fashion",
+    "Electronics",
+    "Bags",
+    "Footwear",
+    "Groceries",
+    "Beauty",
+    "Welleness",
+    "Jewellery",
   ];
 
   return (
@@ -85,7 +128,7 @@ function Home() {
             </div>
           </div>
           <div>
-            <Products items={5} products={ProductByTab[tabKeys[activeTab]]} />
+            <Products items={5} products={tabProducts} />
           </div>
         </section>
 
@@ -117,7 +160,7 @@ function Home() {
           </div>
         </div>
         <div className="flex gap-8 flex-wrap px-3 bg-white pb-5">
-          {NewProduct.map((product, index) => (
+          {products.map((product, index) => (
             <Productitem key={index} product={product} />
           ))}
         </div>
@@ -133,7 +176,7 @@ function Home() {
             </div>
           </div>
           <div>
-            <Products items={5} products={ProductByTab[tabKeys[activeTab]]} />
+            <Products items={5} products={featuredProducts} />
           </div>
         </section>
         <AdsBannerSlider item={3} shownavigation={false} bannerCount={3} />
@@ -147,7 +190,7 @@ function Home() {
             </div>
           </div>
           <div>
-            <Products items={5} products={ProductByTab[tabKeys[activeTab]]} />
+            <Products items={5} products={groceries} />
           </div>
         </section>
         <Footer />
