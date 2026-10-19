@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://e-commerce-khaki-nine-66.vercel.app",
+      "https://quicksell-store.vercel.app",
       process.env.FRONTEND_URL,
     ].filter(Boolean),
   }),
