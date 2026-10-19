@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173/", "https://e-commerce-ccs3.onrender.com/"],
+    origin: ["http://localhost:5173", "https://e-commerce-ccs3.onrender.com"],
   }),
 );
 app.use(express.json());
