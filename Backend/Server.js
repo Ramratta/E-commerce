@@ -18,6 +18,10 @@ app.use(
 );
 app.use(express.json());
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 //MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
