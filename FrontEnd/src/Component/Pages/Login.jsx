@@ -1,12 +1,22 @@
-import React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
-import { FaFacebookF, FaTwitter } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { Alert, Snackbar } from "@mui/material";
+const bg_URL =
+  "https://res.cloudinary.com/ynka6gvl/image/upload/v1792509865/mountain-dusk-bg.svg";
 
 function Login() {
+  const [open, setOpen] = useState(
+    () => sessionStorage.getItem("showLoginAlert") === "true",
+  );
+
   return (
-    <div className="bg-linear-to-r from-[#4899ec] to-[#18ac78] w-full h-screen flex justify-center items-center">
+    <div
+      className="bg-linear-to-r from-[#4899ec] to-[#18ac78] w-full h-screen flex justify-center items-center"
+      style={{ backgroundImage: `url(${bg_URL})` }}
+    >
       <div
         className="w-[40%]
         aspect-square
@@ -51,7 +61,7 @@ function Login() {
               <span>Remember Me</span>
             </label>
             <Link to="/">
-              <p className="text-blue-900">ForgetPassword?</p>
+              <p className="text-red-600">ForgetPassword?</p>
             </Link>
           </div>
           <div className="mt-3 flex flex-col justify-center items-center ">
@@ -63,43 +73,54 @@ function Login() {
                 Login
               </Button>
             </Link>
-            <p className="mt-3 flex text-black">
+            <p className="mt-3 flex text-red-600">
               Don't have account?
               <Link to="/Register">
-                <span className="text-orange-400">Register?</span>
+                <span className="text-yellow-300">Register?</span>
               </Link>
             </p>
           </div>
-          <p className="mt-4 w-full text-center text-blue-800">OR Login with</p>
+          <p className="mt-4 w-full text-center text-red-600">OR Login with</p>
           <div className="mt-3 flex items-center justify-center gap-8">
             <button
               type="button"
               aria-label="Continue with Google"
-              className="cursor-pointer text-2xl transition-transform hover:scale-110"
+              className="cursor-pointer text-5xl transition-transform hover:scale-110"
             >
               <FcGoogle />
             </button>
             <button
               type="button"
               aria-label="Continue with Facebook"
-              className="cursor-pointer  text-2xl text-[#1877f2] transition-transform hover:scale-110"
+              className="cursor-pointer  text-5xl text-[#1877f2] transition-transform hover:scale-110"
             >
               <FaFacebookF />
             </button>
-            <button
-              type="button"
-              aria-label="Continue with Twitter"
-              className="cursor-pointer text-2xl text-[#1da1f2] transition-transform hover:scale-110"
-            >
-              <FaTwitter />
-            </button>
           </div>
-          <p className="mx-auto mt-5 max-w-xs text-center text-xs leading-5 text-white/70">
+          <p className="mx-auto mt-2 max-w-xs text-center text-xs leading-5 text-white/70">
             By continuing you confirm that you agree with our Term &amp;
             Condition
           </p>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={1000}
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          right: "auto",
+          bottom: "auto",
+          transform: "translate(-50%, -50%)",
+        }}
+        onClose={() => {
+          setOpen(false);
+          sessionStorage.removeItem("showLoginAlert");
+        }}
+      >
+        <Alert severity="info">Enter the username and password</Alert>
+      </Snackbar>
     </div>
   );
 }
