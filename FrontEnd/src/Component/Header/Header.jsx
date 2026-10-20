@@ -7,7 +7,7 @@ import { GitCompare, Heart, ShoppingCart } from "lucide-react";
 function Header() {
   return (
     <header>
-      <div className="text-[12px] font-medium flex items-center justify-evenly border-t border-b border-slate-300 h-12.5 bg-white">
+      {/* <div className="text-[12px] font-medium flex items-center justify-evenly border-t border-b border-slate-300 h-12.5 bg-white">
         <div className="w-1/2">
           <p>Get Upto 50% off new season styles. Limited time only</p>
         </div>
@@ -27,7 +27,7 @@ function Header() {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
       <div className="flex justify-evenly items-center h-15 border-b-2 border-slate-300 bg-white w-full">
         <div className="w-[15%] flex">
           <Link to={"/"}>

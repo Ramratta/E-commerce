@@ -9,11 +9,9 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://quicksell-store.vercel.app",
-      process.env.FRONTEND_URL,
-    ].filter(Boolean),
+    origin: [process.env.LOCAL_FRONTEND_URL, process.env.FRONTEND_URL].filter(
+      Boolean,
+    ),
   }),
 );
 app.use(express.json());
@@ -33,7 +31,6 @@ mongoose
   });
 
 //Express Connection
-
 app.use("/api/products", productRoutes);
 
 app.get("/", (req, res) => {
