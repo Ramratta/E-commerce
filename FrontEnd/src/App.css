@@ -8,13 +8,19 @@ body {
   width: 100%;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 10px !important;
   height: 10px !important;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #ff5252;
 }
+
 ::-webkit-scrollbar-track {
   background: #fff;
 }

@@ -80,7 +80,11 @@ function HomeCatSlider() {
       <Swiper
         className=" mt-8"
         modules={[Navigation, Autoplay]}
-        slidesPerView={7}
+        slidesPerView={2}
+        breakpoints={{
+          640: { slidesPerView: 4 },
+          1024: { slidesPerView: 7 },
+        }}
         spaceBetween={16}
         onBeforeInit={(swiper) => {
           swiper.params.navigation.prevEl = prevRef.current;

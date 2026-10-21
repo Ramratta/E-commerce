@@ -159,7 +159,7 @@ function Home() {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-5 gap-8 bg-white pb-5 px-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 bg-white pb-5 px-3">
           {products.map((product, index) => (
             <Productitem key={index} product={product} />
           ))}
