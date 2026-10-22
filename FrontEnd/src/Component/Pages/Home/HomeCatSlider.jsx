@@ -82,8 +82,18 @@ function HomeCatSlider() {
         modules={[Navigation, Autoplay]}
         slidesPerView={2}
         breakpoints={{
-          640: { slidesPerView: 4 },
-          1024: { slidesPerView: 7 },
+          100: { slidesPerView: 1 },
+          200: { slidesPerView: 1 },
+          300: { slidesPerView: 1 },
+          400: { slidesPerView: 2 },
+          570: { slidesPerView: 3 },
+          640: { slidesPerView: 3 },
+          740: { slidesPerView: 4 },
+          870: { slidesPerView: 5 },
+          1040: { slidesPerView: 5 },
+          1140: { slidesPerView: 6 },
+          1260: { slidesPerView: 7 },
+          1380: { slidesPerView: 8 },
         }}
         spaceBetween={16}
         onBeforeInit={(swiper) => {
@@ -98,16 +108,18 @@ function HomeCatSlider() {
       >
         {Slide.map((Slide, index) => (
           <SwiperSlide key={index}>
-            <div
-              className="bg-white border w-40 h-40 rounded-full shadow-sm
+            <div className="flex w-full flex-col items-center">
+              <div
+                className="bg-white border w-40 h-40 rounded-full shadow-sm
                             hover:shadow-md transition flex flex-col items-center
                             justify-center gap-2 border-gray-600 "
-            >
-              <img
-                src={Slide.src}
-                alt={Slide.title}
-                className="w-30 h-30 object-contain rounded-full  hover:scale-130"
-              />
+              >
+                <img
+                  src={Slide.src}
+                  alt={Slide.title}
+                  className="w-30 h-30 object-contain rounded-full  hover:scale-130"
+                />
+              </div>
             </div>
             <h5 className="text-center font-bold text-2xl  text-gray-800 pb-1">
               {Slide.title}
